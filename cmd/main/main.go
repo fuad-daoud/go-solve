@@ -2,13 +2,16 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
+	"slices"
 )
 
 func main() {
-	array := []int{1, 2, 3, 4, 4, 3, 2, 1}
-	newArray := shuffle(array, 4)
-	fmt.Println(newArray)
+	array := []int{0, 1, 2, 2, 3, 0, 4, 2}
+	length := removeElement(array, 2)
+	fmt.Println(length)
+	fmt.Println(array)
 
 	// data := read()
 }
@@ -22,10 +25,15 @@ func read() string {
 	return string(data)
 }
 
-func shuffle(nums []int, n int) []int {
-	newArray := make([]int, 0)
+func removeElement(nums []int, val int) int {
+	n := len(nums)
+	counter := 0
 	for i := 0; i < n; i++ {
-		newArray = append(newArray, nums[i], nums[i+n])
+		if nums[i] == val {
+			nums[i] = math.MaxInt
+			counter++
+		}
 	}
-	return newArray
+	slices.Sort(nums)
+	return n - counter
 }
