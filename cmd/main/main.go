@@ -4,15 +4,13 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"slices"
+	"strings"
+	"unicode"
 )
 
 func main() {
-	array := []int{0, 1, 2, 2, 3, 0, 4, 2}
-	length := removeElement(array, 2)
-	fmt.Println(length)
-	fmt.Println(array)
-
+	answer := myAtoi("   -1123u3761867")
+	fmt.Println(answer)
 	// data := read()
 }
 
@@ -25,15 +23,77 @@ func read() string {
 	return string(data)
 }
 
-func removeElement(nums []int, val int) int {
-	n := len(nums)
-	counter := 0
+func myAtoi(s string) int {
+	s = strings.TrimSpace(s)
+	negative := false
+	if strings.HasPrefix(s, "--") || strings.HasPrefix(s, "++") || strings.HasPrefix(s, "-+") ||
+		strings.HasPrefix(s, "+-") {
+		return 0
+	}
+	if strings.HasPrefix(s, "-") {
+		negative = true
+	}
+	s = strings.TrimFunc(s, removeSign)
+	s = strings.TrimLeftFunc(s, removeZeros)
+	return convert(s, negative)
+}
+
+func convert(s string, negative bool) int {
+	answer := 0
+	originalN := getLenNumbers(s)
+	n := originalN
 	for i := 0; i < n; i++ {
-		if nums[i] == val {
-			nums[i] = math.MaxInt
+		if !unicode.IsDigit(rune(s[i])) {
+			answer /= int(math.Pow10(n - i))
+			break
+		}
+		curr := int(s[i] - '0')
+		pw := int(math.Pow10(n - i - 1))
+		if negative {
+			pw *= -1
+		}
+		if !negative && pw < 0 {
+			return math.MaxInt32
+		}
+		if negative && pw > 1 {
+			return math.MinInt32
+		}
+		mul := curr * pw
+		if mul > math.MaxInt32 || pw > math.MaxInt32 {
+			return math.MaxInt32
+		}
+		if mul < math.MinInt32 || pw < math.MinInt32 {
+			return math.MinInt32
+		}
+		answer += mul
+	}
+
+	if answer > math.MaxInt32 {
+		return math.MaxInt32
+	}
+	if answer < math.MinInt32 {
+		return math.MinInt32
+	}
+
+	return answer
+}
+
+func getLenNumbers(s string) int {
+	counter := 0
+	for i := 0; i < len(s); i++ {
+		if unicode.IsDigit(rune(s[i])) {
 			counter++
+		} else {
+			break
 		}
 	}
-	slices.Sort(nums)
-	return n - counter
+	return counter
+}
+
+func removeSign(r rune) bool {
+	return r == '-' || r == '+'
+}
+
+func removeZeros(r rune) bool {
+	return r == '0'
 }
