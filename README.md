@@ -1,10 +1,10 @@
 # Go Solve
 
-This Project is to solve problems using go on multipe platforms links to all problms solved/attempted will be listed below, a tag/branch will have the same name as the problem.
+This Project is to solve problems using go on multiple platforms links to all problems solved/attempted will be listed below, a tag/branch will have the same name as the problem.
 
-For example the problem named *shuffle the array* will have a tag named *shuffle-the-array*.
-
-For example for codeforces problems since they have a letter associated with them this is an example for the problem named *A. My First Sorting Problem* will be *a-my-first-sorting-problem*
+examples:
+- leetcode: problem `shuffle the array` will have a tag named `shuffle-the-array`.
+- codeforces: problem `A. My First Sorting Problem` will be `cf-a-my-first-sorting-problem`
 
 
 ## Leetcode
