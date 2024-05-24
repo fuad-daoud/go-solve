@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"math"
 	"os"
 )
 
@@ -23,8 +24,17 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 	}(&writer)
 
 	r := &writer
+	var cases int
+	fmt.Fscanf(reader, "%d\n", &cases)
+	for testCaseNumber := 0; testCaseNumber < cases; testCaseNumber++ {
+		solving(reader, r, testCaseNumber)
+	}
 
-	var a, b int
-	fmt.Fscanf(reader, "%d %d", &a, &b)
-	fmt.Fprintln(r, a, b)
+}
+
+func solving(reader io.Reader, r *bufio.Writer, testCaseNumber int) {
+	var a, b float64
+
+	fmt.Fscanf(reader, "%f %f\n", &a, &b)
+	fmt.Fprintln(r, math.Min(a, b), math.Max(a, b))
 }

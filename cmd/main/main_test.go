@@ -2,71 +2,62 @@ package main
 
 import (
 	"bufio"
+	"fmt"
+	"math"
 	"os"
-	"path/filepath"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	baseDir := "files"
-	tests := []test{
-		newTest("basic"),
+	testFiles := []TestFile{
+		newTestFile("basic"),
 	}
-	for _, test := range tests {
-		test.input = filepath.Join(baseDir, test.name+"-basic-input.txt")
-		test.output = filepath.Join(baseDir, test.name+"-output.txt")
-		test.expected = filepath.Join(baseDir, test.name+"-basic-expected.txt")
-	}
+	fmt.Printf("%+v\n", testFiles)
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			input, _ := os.OpenFile(tt.input, os.O_RDONLY, 0644)
-			reader := bufio.NewReader(input)
-			output, _ := os.Create(tt.output)
-			writer := bufio.NewWriter(output)
-			Solve(reader, *writer)
-			equals, _ := FileCmp(tt.output, tt.output)
-			if !equals {
-				t.FailNow()
-			}
+	for _, testFile := range testFiles {
+		t.Run(testFile.name, func(test *testing.T) {
+			fmt.Println("Starting test", testFile.name)
+			ValidateFileEmpty(testFile.input)
+			ValidateFileEmpty(testFile.output)
+			ValidateFileEmpty(testFile.expected)
+
+			Solve(inputReader(testFile), *outputWriter(testFile))
+			validateOutput(testFile.output, testFile.expected, test)
 		})
 	}
 }
 
-type test struct {
-	input    string
-	output   string
-	expected string
-	name     string
-}
+func validateOutput(output, expected string, test *testing.T) {
+	outputFileLines := readLines(output)
+	expectedFileLines := readLines(expected)
 
-func newTest(name string) test {
-	return test{
-		input:    name,
-		output:   name,
-		expected: name,
-		name:     name,
+	n := getMin(outputFileLines, expectedFileLines)
+	for i := 0; i < n; i++ {
+		if outputFileLines[i] != expectedFileLines[i] {
+			_, _ = fmt.Printf("failed at line %d: expected %q, got %q\n", i, expectedFileLines[i], outputFileLines[i])
+			test.Fail()
+		}
+	}
+	if len(outputFileLines) != len(expectedFileLines) {
+		_, _ = fmt.Printf("file line count mismatch, outputFileLines: %d, expectedFileLines: %d\n", len(outputFileLines), len(expectedFileLines))
+		test.Fail()
 	}
 }
 
-func FileCmp(file1, file2 string) (same bool, err error) {
-
-	stat1, err := os.Stat(file1)
-	if err != nil {
-		return false, err
+func readLines(fileName string) (lines []string) {
+	file, _ := os.OpenFile(fileName, os.O_RDONLY, 0644)
+	reader := bufio.NewReader(file)
+	for {
+		line, _ := reader.ReadString('\n')
+		if len(line) == 0 {
+			break
+		}
+		lines = append(lines, line)
 	}
+	fmt.Printf("lines for file:\n%v %q\n", fileName, lines)
+	return lines
+}
 
-	stat2, err := os.Stat(file2)
-	if err != nil {
-		return false, err
-	}
-
-	if os.SameFile(stat1, stat2) {
-		return true, nil
-	}
-
-	if stat1.Size() != stat2.Size() {
-		return false, nil
-	}
-	return true, nil
+func getMin(first, second []string) int {
+	return int(math.Min(float64(len(first)), float64(len(second))))
 }
