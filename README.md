@@ -13,4 +13,5 @@ examples:
 3. [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/description/)
 
 ## codeforces
-1. [A. My First Sorting Problem](https://codeforces.com/contest/1971/problem/A)
+1. [Codeforces Round 944 (Div. 4) A. My First Sorting Problem](https://codeforces.com/contest/1971/problem/A)
+2. [Codeforces Round 944 (Div. 4) B. Different String](https://codeforces.com/contest/1971/problem/B)
