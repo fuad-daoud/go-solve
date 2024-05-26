@@ -21,7 +21,7 @@ func Test(t *testing.T) {
 			ValidateFileEmpty(testFile.expected)
 
 			Solve(inputReader(testFile), *outputWriter(testFile))
-			//validateOutput(testFile.output, testFile.expected, test)
+			validateOutput(testFile.output, testFile.expected, test)
 		})
 	}
 }
@@ -33,7 +33,7 @@ func validateOutput(output, expected string, test *testing.T) {
 	n := getMin(outputFileLines, expectedFileLines)
 	for i := 0; i < n; i++ {
 		if outputFileLines[i] != expectedFileLines[i] {
-			_, _ = fmt.Printf("failed at line %d: expected %q, got %q\n", i, expectedFileLines[i], outputFileLines[i])
+			_, _ = fmt.Printf("failed at line %d: expected %q, got %q\n", i+1, expectedFileLines[i], outputFileLines[i])
 			test.Fail()
 		}
 	}

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -33,42 +32,42 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 }
 
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var s string
+	var a, b, c, d int
 
-	fmt.Fscanf(reader, "%s\n", &s)
-	freq := make(map[rune]int)
-	for _, ch := range s {
-		freq[ch] = freq[ch] + 1
-	}
-
-	keys := make([]rune, 0, len(freq))
-	for k := range freq {
-		keys = append(keys, k)
-	}
-	if len(keys) == 1 {
-		fmt.Fprintln(w, "NO")
-		return
-	}
-	fmt.Fprintln(w, "YES")
-	var strBuilder strings.Builder
-
-	for key := range freq {
-		for index := 0; index < freq[key]; index++ {
-			strBuilder.WriteString(string(key))
+	fmt.Fscanf(reader, "%d %d %d %d\n", &a, &b, &c, &d)
+	counter := 0
+	for i := min(a, b); i <= max(a, b); i++ {
+		if i == c || i == d {
+			counter++
 		}
 	}
-	answer := strBuilder.String()
-	if strings.Compare(answer, s) == 0 {
-		answer = reverse(answer)
+	if counter == 1 {
+		fmt.Fprintln(w, "YES")
+		return
 	}
-	fmt.Fprintf(w, "%s\n", answer)
+	counter = 0
+	for i := min(c, d); i <= max(c, d); i++ {
+		if i == a || i == b {
+			counter++
+		}
+	}
+	if counter == 1 {
+		fmt.Fprintln(w, "YES")
+		return
+	}
+	fmt.Fprintln(w, "NO")
 
 }
 
-func reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func min(a, b int) int {
+	if a < b {
+		return a
 	}
-	return string(runes)
+	return b
+}
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
