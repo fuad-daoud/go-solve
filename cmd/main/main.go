@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 )
 
 func main() {
@@ -32,69 +33,66 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 }
 
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var s string
+	var n, k, q int
 
-	fmt.Fscanf(reader, "%s\n", &s)
+	fmt.Fscanf(reader, "%d %d %d\n", &n, &k, &q)
+	points, times, queries, answers := make([]int64, k), make([]int64, k), make([]Pair, q), make([]int64, q)
 
-	maxStart, maxEnd, answer := getLongestAlreadySortedString(s)
-	answer += findRemainingPieces(s, maxStart, maxEnd)
-
-	if len(s) == 1 {
-		answer = 1
+	for i := 0; i < k; i++ {
+		if i == k-1 {
+			fmt.Fscanf(reader, "%v\n", &points[i])
+			break
+		}
+		fmt.Fscanf(reader, "%v ", &points[i])
 	}
-	fmt.Fprintf(w, "%d\n", max(answer, 1))
-}
-func max(a, b int) int {
-	if a > b {
-		return a
+	for i := 0; i < k; i++ {
+		if i == k-1 {
+			fmt.Fscanf(reader, "%v\n", &times[i])
+			break
+		}
+		fmt.Fscanf(reader, "%v ", &times[i])
 	}
-	return b
-}
-
-func findRemainingPieces(s string, maxStart int, maxEnd int) int {
-	counter := 0
-	for i := 0; i < len(s)-1; i++ {
-		if i >= maxStart && i < maxEnd {
-			continue
-		}
-		if s[i] != s[i+1] {
-			counter++
-		}
+	for i := 0; i < q; i++ {
+		fmt.Fscanf(reader, "%v\n", &queries[i].First)
+		queries[i].Second = i
 	}
-	return counter
-}
 
-func getLongestAlreadySortedString(s string) (int, int, int) {
-	maxStart, maxEnd := -1, -1
-	tmpStart, tmpEnd := -1, -1
-
-	startedSeeingZeros, startedSeeingOnes := false, false
-	for index, value := range s {
-		if value == '0' && !startedSeeingZeros {
-			startedSeeingZeros = true
-			tmpStart = index
-		}
-		if value == '1' && startedSeeingZeros {
-			startedSeeingOnes = true
-		}
-		if value == '0' && startedSeeingOnes {
-			tmpEnd = index - 1
-			startedSeeingOnes = false
-
-			if tmpEnd-tmpStart > maxEnd-maxStart {
-				maxEnd = tmpEnd
-				maxStart = tmpStart
+	sort.Slice(queries, func(i, j int) bool {
+		return queries[i].First < queries[j].First
+	})
+	currentIndex := 0
+	for _, query := range queries {
+		for {
+			if points[currentIndex] >= query.First {
+				break
 			}
-			tmpEnd = -1
-			tmpStart = index
+			currentIndex++
 		}
+		previousPoint := getOrDefault(points, currentIndex-1)
+		previousTime := getOrDefault(times, currentIndex-1)
+		distance := points[currentIndex] - previousPoint
+		time := times[currentIndex] - previousTime
+		queryDistance := query.First - previousPoint
+		queryTime := previousTime + queryDistance*time/distance
+		answers[query.Second] = queryTime
 	}
-	if maxEnd == -1 && tmpStart != -1 {
-		maxStart = tmpStart
-		maxEnd = len(s)
+	for index, answer := range answers {
+		if index == len(answers)-1 {
+			fmt.Fprintf(w, "%d\n", answer)
+			break
+		}
+		fmt.Fprintf(w, "%d ", answer)
 	}
-	if maxStart != -1 && maxEnd != -1 {
-		return maxStart, maxEnd, 1
+}
+
+func getOrDefault(slice []int64, index int) int64 {
+	if index >= len(slice) || index == -1 {
+		return 0
 	}
-	return maxStart, maxEnd, 0
+	return slice[index]
+}
+
+type Pair struct {
+	First  int64
+	Second int
 }

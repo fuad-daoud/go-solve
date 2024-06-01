@@ -17,3 +17,4 @@ examples:
 2. [Codeforces Round 944 (Div. 4) B. Different String](https://codeforces.com/contest/1971/problem/B)
 3. [Codeforces Round 944 (Div. 4) C. Clock and Strings](https://codeforces.com/contest/1971/problem/C)
 4. [Codeforces Round 944 (Div. 4) D. Binary Cuts](https://codeforces.com/contest/1971/problem/D)
+4. [Codeforces Round 944 (Div. 4) E. Binary Cuts](https://codeforces.com/contest/1971/problem/E)
