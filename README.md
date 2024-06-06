@@ -18,3 +18,4 @@ examples:
 3. [Codeforces Round 944 (Div. 4) C. Clock and Strings](https://codeforces.com/contest/1971/problem/C)
 4. [Codeforces Round 944 (Div. 4) D. Binary Cuts](https://codeforces.com/contest/1971/problem/D)
 4. [Codeforces Round 944 (Div. 4) E. Binary Cuts](https://codeforces.com/contest/1971/problem/E)
+4. [Codeforces Round 944 (Div. 4) F. Circle Perimeter](https://codeforces.com/contest/1971/problem/F)

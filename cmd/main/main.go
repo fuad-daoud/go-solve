@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"math"
 	"os"
-	"sort"
 )
 
 func main() {
@@ -33,66 +33,48 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 }
 
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var n, k, q int
+	var r float64
 
-	fmt.Fscanf(reader, "%d %d %d\n", &n, &k, &q)
-	points, times, queries, answers := make([]int64, k), make([]int64, k), make([]Pair, q), make([]int64, q)
-
-	for i := 0; i < k; i++ {
-		if i == k-1 {
-			fmt.Fscanf(reader, "%v\n", &points[i])
-			break
-		}
-		fmt.Fscanf(reader, "%v ", &points[i])
-	}
-	for i := 0; i < k; i++ {
-		if i == k-1 {
-			fmt.Fscanf(reader, "%v\n", &times[i])
-			break
-		}
-		fmt.Fscanf(reader, "%v ", &times[i])
-	}
-	for i := 0; i < q; i++ {
-		fmt.Fscanf(reader, "%v\n", &queries[i].First)
-		queries[i].Second = i
-	}
-
-	sort.Slice(queries, func(i, j int) bool {
-		return queries[i].First < queries[j].First
-	})
-	currentIndex := 0
-	for _, query := range queries {
-		for {
-			if points[currentIndex] >= query.First {
-				break
+	fmt.Fscanf(reader, "%v\n", &r)
+	var n = r
+	answer := 0
+	for i := float64(0); i <= n; i++ {
+		var x = i * i
+		var y = n * n
+		var d = math.Sqrt(x + y)
+		if r <= d && d < (r+1) {
+			answer++
+		} else {
+			n--
+			i--
+			x = i * i
+			y = n * n
+			d = math.Sqrt(x + y)
+			if r <= d && d < (r+1) {
+				answer++
 			}
-			currentIndex++
 		}
-		previousPoint := getOrDefault(points, currentIndex-1)
-		previousTime := getOrDefault(times, currentIndex-1)
-		distance := points[currentIndex] - previousPoint
-		time := times[currentIndex] - previousTime
-		queryDistance := query.First - previousPoint
-		queryTime := previousTime + queryDistance*time/distance
-		answers[query.Second] = queryTime
 	}
-	for index, answer := range answers {
-		if index == len(answers)-1 {
-			fmt.Fprintf(w, "%d\n", answer)
-			break
+	for i := n - 1; i > 0; i-- {
+		var x = n * n
+		var y = i * i
+		var d = math.Sqrt(x + y)
+		if r <= d && d < (r+1) {
+			answer++
+		} else {
+			n++
+			i++
+			x = n * n
+			y = i * i
+			d = math.Sqrt(x + y)
+			if r <= d && d < (r+1) {
+				answer++
+			}
 		}
-		fmt.Fprintf(w, "%d ", answer)
 	}
-}
-
-func getOrDefault(slice []int64, index int) int64 {
-	if index >= len(slice) || index == -1 {
-		return 0
-	}
-	return slice[index]
-}
-
-type Pair struct {
-	First  int64
-	Second int
+	answer *= 4
+	//if n == r && r >= 3 {
+	//	answer -= 4
+	//}
+	fmt.Fprintf(w, "%d\n", answer)
 }
