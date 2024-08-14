@@ -37,10 +37,35 @@ func pre_solve() {
 
 // lookuped the editorial
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var n int
-	fmt.Fscanf(reader, "%v\n", &n)
+	const max_n = 1000
+	var n, k int
+	fmt.Fscanf(reader, "%v %v\n", &n, &k)
 
-	answer := (n / 4) + ((n / 2) % 2)
+	grid := [max_n]string{}
 
-	fmt.Fprintf(w, "%v\n", answer)
+	for index := 0; index < n; index++ {
+		fmt.Fscanf(reader, "%v\n", &grid[index])
+	}
+	answer := [max_n][max_n]rune{}
+	answer_rows := 0
+	for rows_index, row := range grid {
+		if rows_index != 0 && rows_index%k != 0 {
+			continue
+		}
+		answer_columns := 0
+		for columns_index, column := range row {
+			if columns_index != 0 && columns_index%k != 0 {
+				continue
+			}
+			answer[answer_rows][answer_columns] = column
+			answer_columns++
+		}
+		answer_rows++
+	}
+	for index := 0; index < n/k; index++ {
+		for index2 := 0; index2 < n/k; index2++ {
+			fmt.Fprintf(w, "%v", string(answer[index][index2]))
+		}
+		fmt.Fprintln(w)
+	}
 }
