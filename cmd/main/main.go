@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -32,24 +33,35 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 }
 
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var n, s, m int
+	var s, t string
 
-	fmt.Fscanf(reader, "%v %v %v\n", &n, &s, &m)
-	yes := false
-	pre_left := 0
-	for i := 0; i < n; i++ {
-		var left, right int
-		fmt.Fscanf(reader, "%v %v\n", &left, &right)
-		if left-pre_left >= s {
-			yes = true
+	fmt.Fscanf(reader, "%s\n", &s)
+	fmt.Fscanf(reader, "%s\n", &t)
+	index_of_target := 0
+	for index := range s {
+		if index_of_target < len(t) && (s[index] == t[index_of_target] || s[index] == '?') {
+			index_of_target++
 		}
-		pre_left = right
 	}
-	if m-pre_left >= s {
-		yes = true
-	}
-	if yes {
+	if index_of_target == len(t) {
 		fmt.Fprintf(w, "YES\n")
+		answer := strings.Builder{}
+		index_of_target := 0
+		for index := range s {
+			if '?' == s[index] && index_of_target < len(t) {
+				answer.WriteByte(t[index_of_target])
+				index_of_target++
+			} else if '?' == s[index] {
+				answer.WriteByte('f')
+			} else {
+				if index_of_target < len(t) && s[index] == t[index_of_target] {
+					index_of_target++
+				}
+				answer.WriteByte(s[index])
+			}
+		}
+		fmt.Fprintf(w, "%s\n", answer.String())
+
 	} else {
 		fmt.Fprintf(w, "NO\n")
 	}
