@@ -24,3 +24,5 @@ examples:
 9. [Codeforces Round 964 (Div. 4) C. Showering](https://codeforces.com/contest/1999/problem/C)
 10. [Codeforces Round 964 (Div. 4) D. Showering](https://codeforces.com/contest/1999/problem/D)
 11. [Codeforces Round 964 (Div. 4) E. Showering](https://codeforces.com/contest/1999/problem/E)
+12. [Codeforces Round 962 (Div. 4) A. Legs](https://codeforces.com/contest/1996/problem/A)
+13. [Codeforces Round 962 (Div. 4) B. Scale](https://codeforces.com/contest/1996/problem/B)
