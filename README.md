@@ -20,3 +20,4 @@ examples:
 5. [Codeforces Round 944 (Div. 4) E. Binary Cuts](https://codeforces.com/contest/1971/problem/E)
 6. [Codeforces Round 944 (Div. 4) F. Circle Perimeter](https://codeforces.com/contest/1971/problem/F)
 7. [Codeforces Round 964 (Div. 4) (A. A+B Again?](https://codeforces.com/contest/1999/problem/A)
+8. [Codeforces Round 964 (Div. 4) (B. Card Game](https://codeforces.com/contest/1999/problem/B)
