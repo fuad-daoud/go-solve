@@ -31,26 +31,26 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 
 }
 
-// took a look at kilani's solution
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var a1, a2, b1, b2 int
+	var n, s, m int
 
-	fmt.Fscanf(reader, "%v %v %v %v\n", &a1, &a2, &b1, &b2)
-	answer := 0
-	if get(a1, b1)+get(a2, b2) > 0 {
-		answer += 2
+	fmt.Fscanf(reader, "%v %v %v\n", &n, &s, &m)
+	yes := false
+	pre_left := 0
+	for i := 0; i < n; i++ {
+		var left, right int
+		fmt.Fscanf(reader, "%v %v\n", &left, &right)
+		if left-pre_left >= s {
+			yes = true
+		}
+		pre_left = right
 	}
-	if get(a2, b1)+get(a1, b2) > 0 {
-		answer += 2
+	if m-pre_left >= s {
+		yes = true
 	}
-	fmt.Fprintf(w, "%v\n", answer)
-
-}
-func get(a, b int) int {
-	if a > b {
-		return 1
-	} else if a == b {
-		return 0
+	if yes {
+		fmt.Fprintf(w, "YES\n")
+	} else {
+		fmt.Fprintf(w, "NO\n")
 	}
-	return -1
 }
