@@ -1,8 +1,4 @@
-YES
-xbxff
-YES
-abcde
-YES
-ayyfx
-NO
-NO
+5
+6
+36
+263
