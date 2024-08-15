@@ -35,37 +35,44 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 func pre_solve() {
 }
 
-// lookuped the editorial
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	const max_n = 1000
-	var n, k int
-	fmt.Fscanf(reader, "%v %v\n", &n, &k)
+	var n, q int
+	fmt.Fscanf(reader, "%v %v\n", &n, &q)
 
-	grid := [max_n]string{}
+	var a, b string
+	fmt.Fscanf(reader, "%v\n%v\n", &a, &b)
 
-	for index := 0; index < n; index++ {
-		fmt.Fscanf(reader, "%v\n", &grid[index])
-	}
-	answer := [max_n][max_n]rune{}
-	answer_rows := 0
-	for rows_index, row := range grid {
-		if rows_index != 0 && rows_index%k != 0 {
-			continue
+	a_freqs := make([][]int, n+1)
+	b_freqs := make([][]int, n+1)
+
+	a_freqs[0] = make([]int, 26)
+	b_freqs[0] = make([]int, 26)
+	for index := 1; index <= n; index++ {
+		a_freqs[index] = make([]int, 26)
+		b_freqs[index] = make([]int, 26)
+
+		for c_index := 0; c_index < 26; c_index++ {
+			a_freqs[index][c_index] = a_freqs[index-1][c_index]
+			b_freqs[index][c_index] = b_freqs[index-1][c_index]
 		}
-		answer_columns := 0
-		for columns_index, column := range row {
-			if columns_index != 0 && columns_index%k != 0 {
-				continue
+		a_freqs[index][a[index-1]-'a']++
+		b_freqs[index][b[index-1]-'a']++
+	}
+	for query := 0; query < q; query++ {
+		var left, right int
+		fmt.Fscanf(reader, "%v %v\n", &left, &right)
+
+		answer := 0
+
+		for index := 0; index < 26; index++ {
+			a_char_freqs := a_freqs[right][index] - a_freqs[left-1][index]
+
+			b_char_freqs := b_freqs[right][index] - b_freqs[left-1][index]
+
+			if b_char_freqs > a_char_freqs {
+				answer += b_char_freqs - a_char_freqs
 			}
-			answer[answer_rows][answer_columns] = column
-			answer_columns++
 		}
-		answer_rows++
-	}
-	for index := 0; index < n/k; index++ {
-		for index2 := 0; index2 < n/k; index2++ {
-			fmt.Fprintf(w, "%v", string(answer[index][index2]))
-		}
-		fmt.Fprintln(w)
+		fmt.Fprintf(w, "%v\n", answer)
 	}
 }
