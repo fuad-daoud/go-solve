@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 )
 
 func main() {
@@ -36,19 +35,32 @@ func Solve(reader io.Reader, writer bufio.Writer) {
 func pre_solve() {
 }
 
-func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var n string
-	fmt.Fscanf(reader, "%s\n", &n)
-	if len(n) > 2 && n[0:2] == "10" {
-		newN := n[2:len(n)]
-		number, _ := strconv.Atoi(newN)
-		if number > 1 && n[2] != '0' {
-			fmt.Fprintf(w, "YES\n")
-		} else {
+func solving(r io.Reader, w *bufio.Writer, testCaseNumber int) {
+	var n int
+	fmt.Fscanf(r, "%d\n", &n)
 
-			fmt.Fprintf(w, "NO\n")
+	nums := make([]int, n)
+	for index := 0; index < n; index++ {
+		fmt.Fscanf(r, "%d", &nums[index])
+		if index != n-1 {
+			fmt.Fscanf(r, " ")
 		}
+	}
+	fmt.Fscanf(r, "\n")
+	visited := make(map[int]bool)
+
+	counter := 0
+
+	for index := 0; index < n; index++ {
+		visited[nums[index]] = true
+		if !(visited[nums[index]-1] || visited[nums[index]+1]) {
+			counter++
+		}
+	}
+
+	if counter > 1 {
+		fmt.Fprint(w, "NO\n")
 	} else {
-		fmt.Fprintf(w, "NO\n")
+		fmt.Fprint(w, "YES\n")
 	}
 }
