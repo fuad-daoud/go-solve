@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -36,43 +37,18 @@ func pre_solve() {
 }
 
 func solving(reader io.Reader, w *bufio.Writer, testCaseNumber int) {
-	var n, q int
-	fmt.Fscanf(reader, "%v %v\n", &n, &q)
+	var n string
+	fmt.Fscanf(reader, "%s\n", &n)
+	if len(n) > 2 && n[0:2] == "10" {
+		newN := n[2:len(n)]
+		number, _ := strconv.Atoi(newN)
+		if number > 1 && n[2] != '0' {
+			fmt.Fprintf(w, "YES\n")
+		} else {
 
-	var a, b string
-	fmt.Fscanf(reader, "%v\n%v\n", &a, &b)
-
-	a_freqs := make([][]int, n+1)
-	b_freqs := make([][]int, n+1)
-
-	a_freqs[0] = make([]int, 26)
-	b_freqs[0] = make([]int, 26)
-	for index := 1; index <= n; index++ {
-		a_freqs[index] = make([]int, 26)
-		b_freqs[index] = make([]int, 26)
-
-		for c_index := 0; c_index < 26; c_index++ {
-			a_freqs[index][c_index] = a_freqs[index-1][c_index]
-			b_freqs[index][c_index] = b_freqs[index-1][c_index]
+			fmt.Fprintf(w, "NO\n")
 		}
-		a_freqs[index][a[index-1]-'a']++
-		b_freqs[index][b[index-1]-'a']++
-	}
-	for query := 0; query < q; query++ {
-		var left, right int
-		fmt.Fscanf(reader, "%v %v\n", &left, &right)
-
-		answer := 0
-
-		for index := 0; index < 26; index++ {
-			a_char_freqs := a_freqs[right][index] - a_freqs[left-1][index]
-
-			b_char_freqs := b_freqs[right][index] - b_freqs[left-1][index]
-
-			if b_char_freqs > a_char_freqs {
-				answer += b_char_freqs - a_char_freqs
-			}
-		}
-		fmt.Fprintf(w, "%v\n", answer)
+	} else {
+		fmt.Fprintf(w, "NO\n")
 	}
 }
