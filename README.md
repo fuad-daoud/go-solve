@@ -33,5 +33,3 @@ examples:
 18. [Codeforces Round 965 (Div. 2) A. Find K Distinct Points with Fixed Center](https://codeforces.com/contest/1998/problem/A)
 19. [Codeforces Round 965 (Div. 2) B. Minimize Equal Sum Subarrays](https://codeforces.com/contest/1998/problem/B)
 20. [Codeforces Round 965 (Div. 2) C. Perform Operations to Maximize Score](https://codeforces.com/contest/1998/problem/C)
-
-
