@@ -106,7 +106,9 @@ func (solver Solver) solveCase(case_number int) {
 				smaller_numbers = append(smaller_numbers, int(mid-numbers[index].first))
 			}
 		}
-		sort.Sort(sort.Reverse(sort.IntSlice(smaller_numbers)))
+		sort.Slice(smaller_numbers, func(i, j int) bool {
+			return smaller_numbers[i] < smaller_numbers[j]
+		})
 		temp_k := k
 		for _, value := range smaller_numbers {
 			if temp_k >= value {
