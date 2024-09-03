@@ -109,6 +109,7 @@ func (solver Solver) solveCase(case_number int) {
 		sort.Slice(smaller_numbers, func(i, j int) bool {
 			return smaller_numbers[i] < smaller_numbers[j]
 		})
+		fmt.Printf("smaller_numbers: %v\n", smaller_numbers)
 		temp_k := k
 		for _, value := range smaller_numbers {
 			if temp_k >= value {
@@ -123,6 +124,8 @@ func (solver Solver) solveCase(case_number int) {
 		}
 	}
 
+	fmt.Printf("left: %v\n", left)
+	fmt.Printf("numbers: %v\n", numbers)
 	current_answer := numbers[n-1].first + left
 
 	if current_answer > answer {
