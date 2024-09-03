@@ -34,3 +34,4 @@ examples:
 19. [Codeforces Round 965 (Div. 2) B. Minimize Equal Sum Subarrays](https://codeforces.com/contest/1998/problem/B)
 20. [Codeforces Round 965 (Div. 2) C. Perform Operations to Maximize Score](https://codeforces.com/contest/1998/problem/C)
 
+

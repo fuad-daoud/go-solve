@@ -45,7 +45,6 @@ func (solver Solver) Solve() {
 func (solver Solver) pre_solve() {
 }
 
-// looked up the toturial
 func (solver Solver) solveCase(case_number int) {
 
 	r := solver.reader
@@ -133,5 +132,4 @@ func (solver Solver) solveCase(case_number int) {
 	}
 
 	fmt.Fprintf(w, "%d\n", answer)
-
 }
