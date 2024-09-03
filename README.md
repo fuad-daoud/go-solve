@@ -29,3 +29,5 @@ examples:
 14. [Codeforces Round 962 (Div. 3) C. Sort](https://codeforces.com/contest/1996/problem/C) (lesson learned use small slices instead of fixed big arrays)
 15. [Codeforces Round 966 (Div. 3) A. Primary Task](https://codeforces.com/contest/2000/problem/A)
 16. [Codeforces Round 966 (Div. 3) B. Seating in a Bus](https://codeforces.com/contest/2000/problem/B)
+17. [Codeforces Round 966 (Div. 3) C. Numeric String template](https://codeforces.com/contest/2000/problem/C)
+
